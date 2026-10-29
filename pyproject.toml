@@ -1,5 +1,2 @@
-[tool.vercel]
-entrypoint = "booking.wsgi:application"
-
-[tool.vercel.scripts]
-build = "gunicorn --bind 0.0.0.0:8000 booking.wsgi:application"
+  [tool.vercel]
+  entrypoint = "booking.wsgi:application"
