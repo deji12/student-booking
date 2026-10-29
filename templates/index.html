@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NACOS BIU | Student Discipline & Fines Portal</title>
+  <meta name="description" content="Official NACOS portal at Benson Idahosa University for recording and managing student fines for rule violations.">
+  <style>
+    /* ---------- Variables & Reset ---------- */
+    :root {
+    --navy: #0b1f4b;
+    --navy-dark: #07142f;
+    --blue: #1d4ed8;
+    --gold: #f5b301;
+    --bg: #ffffff;
+    --bg-alt: #f3f6fb;
+    --text: #1f2937;
+    --muted: #5b6577;
+    --radius: 12px;
+    --shadow: 0 6px 20px rgba(11, 31, 75, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+    display: inline-block;
+    padding: 12px 26px;
+    background: var(--gold);
+    color: var(--navy-dark);
+    font-weight: 700;
+    border-radius: 8px;
+    border: 2px solid var(--gold);
+    transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); background: #ffc933; }
+
+    .btn-small { padding: 8px 18px; font-size: 0.95rem; }
+
+    .btn-outline {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+    }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.12); }
+
+    .btn-light { background: #fff; border-color: #fff; }
+    .btn-light:hover { background: #eef2ff; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--navy);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; color: #fff; }
+
+    .brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    background: var(--gold);
+    color: var(--navy-dark);
+    font-weight: 800;
+    border-radius: 10px;
+    }
+
+    .brand-text { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.5px; }
+    .brand-text small { font-weight: 500; opacity: 0.8; }
+
+    .nav { display: flex; align-items: center; gap: 22px; }
+    .nav a { color: #dbe4ff; font-weight: 500; }
+    .nav a:hover { color: #fff; }
+    .nav a.btn { color: var(--navy-dark); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(245, 179, 1, 0.18), transparent 45%),
+        linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: #fff;
+    padding: 100px 0 110px;
+    }
+
+    .hero-inner { max-width: 760px; }
+
+    .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 16px;
+    }
+
+    .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    }
+    .accent { color: var(--gold); }
+
+    .hero-sub {
+    font-size: 1.1rem;
+    color: #cdd8f5;
+    margin-bottom: 32px;
+    max-width: 620px;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ---------- Sections ---------- */
+    .section { padding: 80px 0; }
+    .section-alt { background: var(--bg-alt); }
+
+    .section-title {
+    font-size: 2rem;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 8px;
+    }
+    .section-sub {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 44px;
+    }
+
+    .grid { display: grid; gap: 24px; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .card {
+    background: #fff;
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--gold);
+    }
+    .card h3 { color: var(--navy); margin-bottom: 8px; }
+    .card p { color: var(--muted); }
+
+    .card-plain { border-top-color: var(--blue); }
+
+    .step {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    }
+
+    /* ---------- Call to action ---------- */
+    .cta {
+    background: var(--blue);
+    color: #fff;
+    padding: 64px 0;
+    text-align: center;
+    }
+    .cta h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .cta p { margin-bottom: 24px; color: #dbe6ff; }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+    background: var(--navy-dark);
+    color: #b8c4e3;
+    padding-top: 44px;
+    }
+
+    .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding-bottom: 30px;
+    }
+    .footer-inner strong { color: #fff; display: block; margin-bottom: 6px; }
+    .footer-inner p { max-width: 360px; font-size: 0.95rem; }
+
+    .copyright {
+    text-align: center;
+    padding: 18px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 800px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .hero { padding: 70px 0 80px; }
+    .section { padding: 60px 0; }
+    }
+
+    /* ---------- Mobile navigation (hamburger) ---------- */
+    .nav-toggle { display: none; }
+    .nav-toggle-label { display: none; }
+
+    @media (max-width: 700px) {
+    .header-inner { flex-wrap: wrap; }
+
+    .nav-toggle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        cursor: pointer;
+    }
+
+    /* hamburger icon */
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        display: block;
+        width: 24px;
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+        position: relative;
+        transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+    .nav-toggle-label span::before { top: -8px; }
+    .nav-toggle-label span::after { top: 8px; }
+
+    /* turn into an X when open */
+    .nav-toggle:checked + .nav-toggle-label span { background: transparent; }
+    .nav-toggle:checked + .nav-toggle-label span::before { transform: translateY(8px) rotate(45deg); }
+    .nav-toggle:checked + .nav-toggle-label span::after { transform: translateY(-8px) rotate(-45deg); }
+
+    /* collapsed menu */
+    .nav {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        flex-basis: 100%;
+        width: 100%;
+        padding-top: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .nav-toggle:checked ~ .nav { display: flex; }
+
+    .nav a {
+        padding: 14px 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 1rem;
+    }
+    .nav a.btn {
+        margin: 14px 0 6px;
+        text-align: center;
+        border-bottom: none;
+        padding: 12px 18px;
+    }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand">
+        <span class="brand-mark">N</span>
+        <span class="brand-text">NACOS <small>BIU</small></span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+        <span></span>
+      </label>
+      <nav class="nav">
+        <a href="#how-it-works">How it works</a>
+        <a href="#offences">Offences</a>
+        <a href="#contact">Contact</a>
+        {% if not request.user.is_authenticated %}
+            <a href="/register/" class="btn btn-small">Register</a>
+        {% else %}
+            <a href="/admin/" class="btn btn-small">Admin</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Benson Idahosa University &middot; Faculty of Computing</p>
+        <h1>Discipline, made <span class="accent">simple and transparent.</span></h1>
+        <p class="hero-sub">
+          The NACOS fines portal helps us record rule violations, such as breaking the
+          dress code, and manage the resulting fines in one organised place.
+        </p>
+        <div class="hero-actions">
+          <a href="/admin/" class="btn">Admin Login</a>
+          <a href="#how-it-works" class="btn btn-outline">Learn more</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-sub">A straightforward process from the moment a rule is broken.</p>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <span class="step">1</span>
+            <h3>Violation recorded</h3>
+            <p>An authorised NACOS admin logs in and creates a new record for the student involved.</p>
+          </article>
+          <article class="card">
+            <span class="step">2</span>
+            <h3>Fine assigned</h3>
+            <p>The offence and the fine amount are saved, and records can be updated or removed if needed.</p>
+          </article>
+          <article class="card">
+            <span class="step">3</span>
+            <h3>Fine settled</h3>
+            <p>The student pays the fine to NACOS and the record is updated, so everything stays accurate.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Offences -->
+    <section id="offences" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Common offences</h2>
+        <p class="section-sub">Examples of rules students are expected to follow.</p>
+
+        <div class="grid grid-3">
+          <article class="card card-plain">
+            <h3>Dress code</h3>
+            <p>Dressing outside the approved university dress code on campus.</p>
+          </article>
+          <article class="card card-plain">
+            <h3>Missing NACOS events</h3>
+            <p>Failing to attend required departmental programmes without notice.</p>
+          </article>
+          <article class="card card-plain">
+            <h3>Other violations</h3>
+            <p>Any other breach of faculty or association rules as set by NACOS.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to action -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2>Are you a NACOS admin?</h2>
+        <p>Log in to create, update and manage student records.</p>
+        <a href="/admin/" class="btn btn-light">Go to Admin Login</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact" class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>NACOS &ndash; Benson Idahosa University</strong>
+        <p>National Association of Computing Students, Faculty of Computing, Benin City, Nigeria.</p>
+      </div>
+      <div>
+        <strong>Questions or disputes?</strong>
+        <p>Please reach out to a NACOS executive in person.</p>
+      </div>
+    </div>
+    <p class="copyright">&copy; 2026 NACOS BIU. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

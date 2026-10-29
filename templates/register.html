@@ -1,0 +1,477 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | NACOS BIU</title>
+  <style>
+    /* ---------- Variables & Reset ---------- */
+        :root {
+        --navy: #0b1f4b;
+        --navy-dark: #07142f;
+        --blue: #1d4ed8;
+        --gold: #f5b301;
+        --bg: #ffffff;
+        --bg-alt: #f3f6fb;
+        --text: #1f2937;
+        --muted: #5b6577;
+        --radius: 12px;
+        --shadow: 0 6px 20px rgba(11, 31, 75, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+        font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+        display: inline-block;
+        padding: 12px 26px;
+        background: var(--gold);
+        color: var(--navy-dark);
+        font-weight: 700;
+        border-radius: 8px;
+        border: 2px solid var(--gold);
+        transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .btn:hover { transform: translateY(-2px); background: #ffc933; }
+
+        .btn-small { padding: 8px 18px; font-size: 0.95rem; }
+
+        .btn-outline {
+        background: transparent;
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.6);
+        }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.12); }
+
+        .btn-light { background: #fff; border-color: #fff; }
+        .btn-light:hover { background: #eef2ff; }
+
+        /* ---------- Header ---------- */
+        .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--navy);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+        }
+
+        .brand { display: flex; align-items: center; gap: 10px; color: #fff; }
+
+        .brand-mark {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        background: var(--gold);
+        color: var(--navy-dark);
+        font-weight: 800;
+        border-radius: 10px;
+        }
+
+        .brand-text { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.5px; }
+        .brand-text small { font-weight: 500; opacity: 0.8; }
+
+        .nav { display: flex; align-items: center; gap: 22px; }
+        .nav a { color: #dbe4ff; font-weight: 500; }
+        .nav a:hover { color: #fff; }
+        .nav a.btn { color: var(--navy-dark); }
+
+        /* ---------- Hero ---------- */
+        .hero {
+        background:
+            radial-gradient(circle at 85% 20%, rgba(245, 179, 1, 0.18), transparent 45%),
+            linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+        color: #fff;
+        padding: 100px 0 110px;
+        }
+
+        .hero-inner { max-width: 760px; }
+
+        .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--gold);
+        margin-bottom: 16px;
+        }
+
+        .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+        line-height: 1.15;
+        margin-bottom: 20px;
+        }
+        .accent { color: var(--gold); }
+
+        .hero-sub {
+        font-size: 1.1rem;
+        color: #cdd8f5;
+        margin-bottom: 32px;
+        max-width: 620px;
+        }
+
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+        /* ---------- Sections ---------- */
+        .section { padding: 80px 0; }
+        .section-alt { background: var(--bg-alt); }
+
+        .section-title {
+        font-size: 2rem;
+        color: var(--navy);
+        text-align: center;
+        margin-bottom: 8px;
+        }
+        .section-sub {
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 44px;
+        }
+
+        .grid { display: grid; gap: 24px; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .card {
+        background: #fff;
+        padding: 28px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border-top: 4px solid var(--gold);
+        }
+        .card h3 { color: var(--navy); margin-bottom: 8px; }
+        .card p { color: var(--muted); }
+
+        .card-plain { border-top-color: var(--blue); }
+
+        .step {
+        display: inline-grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 14px;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        font-weight: 700;
+        }
+
+        /* ---------- Call to action ---------- */
+        .cta {
+        background: var(--blue);
+        color: #fff;
+        padding: 64px 0;
+        text-align: center;
+        }
+        .cta h2 { font-size: 1.8rem; margin-bottom: 8px; }
+        .cta p { margin-bottom: 24px; color: #dbe6ff; }
+
+        /* ---------- Footer ---------- */
+        .site-footer {
+        background: var(--navy-dark);
+        color: #b8c4e3;
+        padding-top: 44px;
+        }
+
+        .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
+        padding-bottom: 30px;
+        }
+        .footer-inner strong { color: #fff; display: block; margin-bottom: 6px; }
+        .footer-inner p { max-width: 360px; font-size: 0.95rem; }
+
+        .copyright {
+        text-align: center;
+        padding: 18px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.85rem;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 800px) {
+        .grid-3 { grid-template-columns: 1fr; }
+        .hero { padding: 70px 0 80px; }
+        .section { padding: 60px 0; }
+        }
+
+        /* ---------- Auth / Register page ---------- */
+        .auth-page { background: var(--bg-alt); min-height: 100vh; display: flex; flex-direction: column; }
+
+        .back-link { color: #dbe4ff; font-weight: 500; }
+        .back-link:hover { color: #fff; }
+
+        .auth-wrap {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 40px 20px;
+        }
+
+        .auth-card {
+        width: 100%;
+        max-width: 440px;
+        background: #fff;
+        padding: 36px 32px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border-top: 4px solid var(--gold);
+        }
+
+        .auth-card h1 { font-size: 1.6rem; color: var(--navy); margin-bottom: 6px; }
+        .auth-sub { color: var(--muted); margin-bottom: 24px; }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--navy);
+        margin-bottom: 6px;
+        }
+
+        .form-group input {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 1rem;
+        font-family: inherit;
+        color: var(--text);
+        background: #fff;
+        border: 1.5px solid #cfd8e8;
+        border-radius: 8px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .form-group input:focus {
+        outline: none;
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+        }
+        .form-group input.input-error { border-color: #dc2626; }
+
+        .field-error { color: #dc2626; font-size: 0.85rem; margin-top: 5px; }
+
+        .alert {
+        padding: 12px 14px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        font-size: 0.95rem;
+        }
+        .alert-error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+        .btn-block { width: 100%; font-size: 1rem; cursor: pointer; }
+
+        .auth-footer { text-align: center; margin-top: 20px; color: var(--muted); font-size: 0.95rem; }
+        .auth-footer a { color: var(--blue); font-weight: 600; }
+        .auth-footer a:hover { text-decoration: underline; }
+
+        .auth-success { text-align: center; }
+        .auth-success .step { background: #16a34a; width: 48px; height: 48px; font-size: 1.4rem; }
+        .auth-success p { color: var(--muted); margin: 10px 0 24px; }
+
+        /* ---------- Mobile navigation (hamburger) ---------- */
+        .nav-toggle { display: none; }
+        .nav-toggle-label { display: none; }
+
+        @media (max-width: 700px) {
+        .header-inner { flex-wrap: wrap; }
+
+        .nav-toggle-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+        }
+
+        /* hamburger icon */
+        .nav-toggle-label span,
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: #fff;
+            border-radius: 2px;
+            position: relative;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+        }
+        .nav-toggle-label span::before { top: -8px; }
+        .nav-toggle-label span::after { top: 8px; }
+
+        /* turn into an X when open */
+        .nav-toggle:checked + .nav-toggle-label span { background: transparent; }
+        .nav-toggle:checked + .nav-toggle-label span::before { transform: translateY(8px) rotate(45deg); }
+        .nav-toggle:checked + .nav-toggle-label span::after { transform: translateY(-8px) rotate(-45deg); }
+
+        /* collapsed menu */
+        .nav {
+            display: none;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            flex-basis: 100%;
+            width: 100%;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .nav-toggle:checked ~ .nav { display: flex; }
+
+        .nav a {
+            padding: 14px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1rem;
+        }
+        .nav a.btn {
+            margin: 14px 0 6px;
+            text-align: center;
+            border-bottom: none;
+            padding: 12px 18px;
+        }
+        }
+  </style>
+</head>
+<body class="auth-page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <span class="brand-mark">N</span>
+        <span class="brand-text">NACOS <small>BIU</small></span>
+      </a>
+      <a href="/" class="back-link">&larr; Back to home</a>
+    </div>
+  </header>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+
+      {% if registered %}
+        <!-- Success state -->
+        <div class="auth-success">
+          <span class="step">&#10003;</span>
+          <h1>Registration received</h1>
+          <p>
+            Your account has been created and is waiting for approval.
+            You will be able to log in once a NACOS admin activates it.
+          </p>
+          <a href="/" class="btn">Back to home</a>
+        </div>
+
+      {% else %}
+        <h1>Create staff account</h1>
+        <p class="auth-sub">Register to help manage bookings for NACOS, BIU.</p>
+
+        {% if errors.general %}
+          <div class="alert alert-error">{{ errors.general }}</div>
+        {% endif %}
+
+        <form action="" method="POST" novalidate>
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              maxlength="50"
+              value="{{ values.username|default:'' }}"
+              autocomplete="username"
+              required
+              {% if errors.username %}class="input-error"{% endif %}>
+            {% if errors.username %}<p class="field-error">{{ errors.username }}</p>{% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value="{{ values.email|default:'' }}"
+              autocomplete="email"
+              required
+              {% if errors.email %}class="input-error"{% endif %}>
+            {% if errors.email %}<p class="field-error">{{ errors.email }}</p>{% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="new-password"
+              required
+              {% if errors.password %}class="input-error"{% endif %}>
+            {% if errors.password %}
+              {% for message in errors.password %}
+                <p class="field-error">{{ message }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="confirm_password">Confirm password</label>
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              autocomplete="new-password"
+              required
+              {% if errors.confirm_password %}class="input-error"{% endif %}>
+            {% if errors.confirm_password %}<p class="field-error">{{ errors.confirm_password }}</p>{% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-block">Register</button>
+        </form>
+
+        <p class="auth-footer">
+          Already have an account? <a href="/admin/login/">Log in</a>
+        </p>
+      {% endif %}
+
+    </div>
+  </main>
+
+</body>
+</html>
